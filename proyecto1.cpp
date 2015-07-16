@@ -1,9 +1,12 @@
  #include<iostream>
 #include<conio>
 #include<stdio>
-
+#include<stdlib>
+#include<string>
+#include<time>
 
 #define HORARIO 1
+#define TIEMPO 2
 
 void menuPrincipal(){  //subrutina ó subprograma, sin parámetros
     printf("HORARIO DE CLASES\n");
@@ -33,6 +36,25 @@ void HorariodeHoy(int a, int b, char mat, char sem, char dia)
     fflush(stdin);
     scanf("%d",b);
 		}
+    void tiempo( )
+    {
+      struct tm *tiempo;
+	int dia;
+	int mes;
+	int anio;
+
+	time_t fecha_sistema;
+	time(&fecha_sistema);
+	tiempo=localtime(&fecha_sistema);
+
+	anio=tiempo->tm_year + 1900;
+	mes=tiempo->tm_mon + 1;
+	dia=tiempo->tm_mday;
+   asctime(&fecha_sistema);
+      cout<<fecha_sistema<<'end1';
+   cout<<tm_wday<<'end1';
+
+   }
 
 main()
 {
@@ -47,6 +69,10 @@ main()
    	case HORARIO:
            HorariodeHoy(a,b,mat,sem,dia);
            break;
+      case 2:
+           tiempo();
+           break;
+
 	}
    }while (opcion!=4);
 getch();
