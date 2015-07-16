@@ -1,6 +1,7 @@
 #include<iostream>
 #include<conio>
 #include<stdio>
+#include<fstream>
 
 main()
 {
@@ -42,9 +43,12 @@ case 1:
 
  } while( m== 's' || m == 'S');
 
- 	 archivo = fopen(archivo_d,"a+");
-    fprintf(archivo,"%s %s %s %i %i\n",materia,semestre,dia,h_i,h_f);
-    fclose(archivo);
 
  }break;
+
+
+ }
+getch();
+
+ }
 

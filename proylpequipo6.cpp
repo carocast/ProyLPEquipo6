@@ -1,54 +1,53 @@
 #include<iostream>
 #include<conio>
 #include<stdio>
-#include<fstream>
+
+#define HORARIO 1
+
+void menuPrincipal(){  //subrutina o subprograma, sin parametros
+    printf("HORARIO DE CLASES\n");
+    printf("Menu principal:\n");
+    printf("1. Ingresar un nuevo horario\n");
+    printf("2. Ver el horario de hoy\n");
+    printf("3. Ver el horario de la semana\n");
+    printf("4. Salir\n");
+    }
+
+void HorariodeHoy(int a, int b, char mat, char sem, char dia)
+    {  //subrutina conocida como procedimiento, por ser void
+
+    printf("Nombre de la materia:\n");
+    fflush(stdin);
+    scanf("%s",&mat);
+    printf("Nombre del semestre:\n");
+    fflush(stdin);
+    scanf("%s",&sem);
+    printf("Dia de la semana:\n");
+    fflush(stdin);
+    scanf("%s",&dia);
+    printf("Horario de inicio:\n");
+    fflush(stdin);
+    scanf("%d",&a);
+    printf("Horario de fin:\n");
+    fflush(stdin);
+    scanf("%d",b);
+		}
 
 main()
 {
-char materia[20],semestre[20], dia[20];
- int h_i, h_f,opcion;
-
-
-cout<<"HORARIO DE PEDRO:";
-cout<<"\nIngrese la opcion que desea realizar:";
-cout<<"\n1. Ingresar un nuevo horario";
-cout<<"\n2. Ver el horario de hoy";
-cout<<"\n3. Ver el horario de la semana";
-cout<<"\n4. Salir\n";
-cin>>opcion;
-int m=1;
-
-switch(opcion)
-{
-case 1:
-{
-   do
+   int opcion,a,b;
+   char mat,sem,dia;
+   do{
+   menuPrincipal();
+   cout<<"Ingrese una opcion: \n";
+   cin>>opcion;
+   switch(opcion)
    {
-	cout<<"Introduzca el numero de hora clase de inicio: ";
-   cin>>h_i;
-   cout<<"Introduzca el numero de hora clase de fin: ";
-   cin>>h_f;
-   cout<<"Introduzca la materia: ";
-   fflush(stdin);
-   gets(materia);
-   cout<<"Introduzca el semestre: ";
-   fflush(stdin);
-   gets(semestre);
-   cout<<"Introduzca el dia de clase: ";
-   fflush(stdin);
-   gets(dia);
-
-   cout<<"\nQuiere seguir aumentando su horario de clases s/n \n";
-   m=getch();
-
- } while( m== 's' || m == 'S');
-
-
- }break;
-
-
- }
+   	case HORARIO:
+           HorariodeHoy(a,b,mat,sem,dia);
+           break;
+	}
+   }while (opcion!=4);
 getch();
-
- }
+}
 
