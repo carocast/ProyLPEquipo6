@@ -1,12 +1,19 @@
- #include<iostream>
+#include<iostream>
 #include<conio>
 #include<stdio>
 #include<stdlib>
 #include<string>
 #include<time>
+#include<fstream>
 
 #define HORARIO 1
 #define TIEMPO 2
+#define SEMANA 3
+#define SALIR 4
+
+int a,b,op;
+char materia[20], semestre[20],dia[20],auxDia[20];
+bool encontrado=false;
 
 void menuPrincipal(){  //subrutina ó subprograma, sin parámetros
     printf("HORARIO DE CLASES\n");
@@ -17,43 +24,79 @@ void menuPrincipal(){  //subrutina ó subprograma, sin parámetros
     printf("4. Salir\n");
     }
 
-    void Dias()
+void HorariodeHoy()
     {
-    printf("Escoja el Dia de la semana que desea ingresar\n");
-    printf("1. Lunes\n");
-    printf("2. Martes\n");
-    printf("3. Miercolesn");
-    printf("4. Jueves\n");
-    printf("5. Viernes\n");
-		}
+        ofstream escritura;
+        escritura.open("carpeta.txt",ios::out|ios::app);
+        if(!escritura.fail()){
+        cout<<"Ingresa la materia: ";
+        gets(materia);
+        cout<<"Ingresa el Semestre: ";
+        gets(semestre);
+        cout<<"Ingrese el dia de la semana: ";
+        gets(dia);
+        cout<<"Ingrese la hora de inicio: ";
+        cin>>a;
+        cout<<"Ingrese la hora de fin: ";
+        cin>>b;
 
-void HorariodeHoy(int a, int b, char mat, char sem, char dia)
-    {  //subrutina conocida como procedimiento, por ser void
+        escritura<<materia<<" "<<semestre<<" "<<dia<<" "<<a<<" "<<b<<endl;
+    }else{
+        cout<<"Error, el Archivo No se Pudo Abrir"<<endl;
+    }
+    escritura.close();
+}
 
-    printf("Nombre de la materia:\n");
-    fflush(stdin);
-    scanf("%s",&mat);
-    printf("Nombre del semestre:\n");
-    fflush(stdin);
-    scanf("%s",&sem);
-    printf("Horario de inicio:\n");
-    fflush(stdin);
-    scanf("%d",&a);
-    printf("Horario de fin:\n");
-    fflush(stdin);
-    scanf("%d",b);
-		}
-    void tiempo( )
-    {
-      time_t t1;
-      struct tm *t2;
-		t1 = time(NULL);
-		t2 = gmtime(&t1);
-		cout<<asctime(t2)<<'\n';
-		cout<<t2->tm_wday<<'endl';
+void tiempo( )
+{
+       time_t tiempo = time(0);
+       struct tm *tlocal = localtime(&tiempo);
+       char output[5];
+       strftime(output,5,"%w",tlocal);
 
-   }
+       ifstream lectura;//Creamos la variable de tipo lectura
+       lectura.open("carpeta.txt",ios::out|ios::in);//Abrimos el archivo
+       //validando la apertura del archivo
+       if(!lectura.fail())
+       {
+        cout<<"Ingrese el nombre del dia que corresponde al dia de la semana\n";
+        printf("%s\n",output);
+        cin>>auxDia;
+        lectura>>materia;//lectura adelantada
+        encontrado=false;
+        while(!lectura.eof())
+        {
+            lectura>>semestre>>dia>>a>>b;//leyendo los campos del registro
+            //Comparar cada registro para ver si es encontrado
+            if(strcmp(auxDia,dia)==0)
+            {
+                cout<<"______________________________"<<endl;
+                cout<<dia<<'\t';
+                cout<<a<<"HOO-"<<b<<"HOO"<<endl;
+                cout<<semestre<<endl;
+                cout<<materia<<endl;
+                cout<<"______________________________"<<endl;
+                encontrado=true;
+            }
+            lectura>>materia;//lectura adelantada
+        }
+        if(encontrado==false)
+        {
+            cout<<"No hay registros del dia: "<<auxDia<<endl;
+        }
+       }
+       else
+        {
+        cout<<"No se pudoAbrir el Archivo, aun no ha sido Creado"<<endl;
+        }
+    system("PAUSE");
+    lectura.close();
+}
 
+salir()
+{
+   cout<<"PROGRAMA FINALIZADO\n";
+}
 main()
 {
    int opcion,a,b,op;
@@ -65,22 +108,14 @@ main()
    switch(opcion)
    {
    	case HORARIO:
-
-           Dias();
-           do
-            {
-           cout<<"Ingrese una opcion: \n";
-           cin>>op;
-           if(op<0 | op>5)
-           {
-           cout<<"Su opcion no pertenece a los dias de clases";
-           }
-           }while(op<0 | op>5);
-				HorariodeHoy(a,b,mat,sem,dia);
-
-        break;
-      case 2:
+           HorariodeHoy();
+           break;
+      case TIEMPO:
            tiempo();
+           break;
+
+      case SALIR:
+           salir();
            break;
 
 	}
