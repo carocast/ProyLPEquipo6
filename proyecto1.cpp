@@ -12,11 +12,11 @@
 #define SALIR 4
 
 int a,b,op;
-char materia[20], semestre[20],dia[20],auxDia[20];
+char materia[20], semestre[20],dia[20],auxDia[20], m;
 bool encontrado=false;
 
 void menuPrincipal(){  //subrutina ó subprograma, sin parámetros
-    printf("HORARIO DE CLASES\n");
+    cout<<"HORARIO DE CLASES\n";
     printf("Menu principal:\n");
     printf("1. Ingresar un nuevo horario\n");
     printf("2. Ver el horario de hoy\n");
@@ -26,6 +26,7 @@ void menuPrincipal(){  //subrutina ó subprograma, sin parámetros
 
 void HorariodeHoy()
     {
+    		do{
         ofstream escritura;
         escritura.open("carpeta.txt",ios::out|ios::app);
         if(!escritura.fail()){
@@ -39,12 +40,18 @@ void HorariodeHoy()
         cin>>a;
         cout<<"Ingrese la hora de fin: ";
         cin>>b;
+        cout<<"\nQuiere seguir aumentando su horario de clases s/n \n";
+        cin>>m;
 
         escritura<<materia<<" "<<semestre<<" "<<dia<<" "<<a<<" "<<b<<endl;
     }else{
         cout<<"Error, el Archivo No se Pudo Abrir"<<endl;
     }
     escritura.close();
+
+
+ } while( m== 's' || m == 'S');
+
 }
 
 void tiempo( )
@@ -59,7 +66,7 @@ void tiempo( )
        //validando la apertura del archivo
        if(!lectura.fail())
        {
-        cout<<"Ingrese el nombre del dia que corresponde al dia de la semana\n";
+        cout<<"Ingrese el nombre del dia que corresponde al numero que se muestra en pantalla\n";
         printf("%s\n",output);
         cin>>auxDia;
         lectura>>materia;//lectura adelantada
@@ -75,6 +82,7 @@ void tiempo( )
                 cout<<a<<"HOO-"<<b<<"HOO"<<endl;
                 cout<<semestre<<endl;
                 cout<<materia<<endl;
+
                 cout<<"______________________________"<<endl;
                 encontrado=true;
             }
@@ -89,14 +97,49 @@ void tiempo( )
         {
         cout<<"No se pudoAbrir el Archivo, aun no ha sido Creado"<<endl;
         }
-    system("PAUSE");
+
     lectura.close();
+    system("PAUSE");
 }
 
 salir()
 {
    cout<<"PROGRAMA FINALIZADO\n";
 }
+
+void semana()
+{
+	ifstream lectura;//Creamos la variable de tipo lectura
+   lectura.open("carpeta.txt",ios::out|ios::in);
+  if(!lectura.fail())
+       {
+
+        lectura>>materia;//lectura adelantada
+        while(!lectura.eof())
+        {
+            lectura>>semestre>>dia>>a>>b;//leyendo los campos del registro
+
+                cout<<"______________________________"<<endl;
+                cout<<dia<<'\t';
+                cout<<a<<"HOO-"<<b<<"HOO"<<endl;
+                cout<<semestre<<endl;
+                cout<<materia<<endl;
+
+                cout<<"______________________________"<<endl;
+                lectura>>materia;//lectura adelantada
+
+            }
+
+       }
+       else
+        {
+        cout<<"No se pudoAbrir el Archivo, aun no ha sido Creado"<<endl;
+        }
+
+    lectura.close();
+    system("PAUSE");
+}
+
 main()
 {
    int opcion,a,b,op;
@@ -109,10 +152,14 @@ main()
    {
    	case HORARIO:
            HorariodeHoy();
+
            break;
       case TIEMPO:
            tiempo();
            break;
+      case SEMANA:
+      		semana();
+            break;
 
       case SALIR:
            salir();
@@ -121,4 +168,3 @@ main()
 	}
    }while (opcion!=4);
 getch();
-}
